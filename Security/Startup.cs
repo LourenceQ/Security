@@ -18,9 +18,10 @@ namespace Security
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication().AddCookie("MyCookieAuth", opt =>
+            services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", opt =>
             {
                 opt.Cookie.Name = "MyCookieAuth";
+                opt.LoginPath = "/Account1/Login";
             });
             services.AddRazorPages();
         }
@@ -43,6 +44,8 @@ namespace Security
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

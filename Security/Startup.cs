@@ -21,9 +21,23 @@ namespace Security
             services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", opt =>
             {
                 opt.Cookie.Name = "MyCookieAuth";
-                opt.LoginPath = "/Account1/Login";
+                opt.LoginPath = "/Account/Login";
+                opt.AccessDeniedPath = "/Account/AccessDenied";
             });
             services.AddRazorPages();
+
+            services.AddAuthorization(opt => 
+            {
+                opt.AddPolicy("AdminOnly", 
+                    policy => policy.RequireClaim("Admin"));
+                    
+                opt.AddPolicy("MustBelongToHRDepartment", 
+                    policy => policy.RequireClaim("Department", "HR"));
+
+                opt.AddPolicy("HRManagerOnly", policy => policy
+                    .RequireClaim("Department", "HR")
+                    .RequireClaim("Manager"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

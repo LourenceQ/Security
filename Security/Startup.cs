@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Security.Authorization;
 
 namespace Security
 {
@@ -36,8 +38,13 @@ namespace Security
 
                 opt.AddPolicy("HRManagerOnly", policy => policy
                     .RequireClaim("Department", "HR")
-                    .RequireClaim("Manager"));
+                    .RequireClaim("Manager")
+                    .Requirements.Add(new HrManagerProbationRequirement(3)
+                    ));
             });
+
+            services.AddSingleton<IAuthorizationHandler
+                , HrManagerProbationRequirementHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

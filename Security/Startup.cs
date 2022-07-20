@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,11 +21,17 @@ namespace Security
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient("API", client => 
+            {
+                client.BaseAddress = new Uri("https://localhost:44336/");
+            });
+            
             services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", opt =>
             {
                 opt.Cookie.Name = "MyCookieAuth";
                 opt.LoginPath = "/Account/Login";
                 opt.AccessDeniedPath = "/Account/AccessDenied";
+                opt.ExpireTimeSpan = TimeSpan.FromSeconds(30);
             });
             services.AddRazorPages();
 

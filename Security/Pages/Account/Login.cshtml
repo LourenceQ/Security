@@ -28,6 +28,16 @@
             </div>            
         </div>
 
+        <div class="row form-check mb-2">
+            <div class="col-2">
+                <input 
+                    asp-for="Credential.RememberMe"
+                    type="checkbox"
+                    class="form-check-input"/>
+                <label class="form-check-label" asp-for="Credential.RememberMe"></label>
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="col-2">
                 <input 
@@ -36,6 +46,5 @@
                     value="Login"/>
             </div>
         </div>
-
     </form>
 </div>

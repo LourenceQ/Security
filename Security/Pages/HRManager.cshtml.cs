@@ -27,7 +27,8 @@ namespace Security.Pages
         public async Task OnGetAsync()
         {
             var httpClient = _httpClientFactory.CreateClient("API");
-            WeatherForecastItems = await httpClient.GetFromJsonAsync<List<WeatherForecastDto>>("WeatherForecast");
+            WeatherForecastItems = await httpClient
+                .GetFromJsonAsync<List<WeatherForecastDto>>("WeatherForecast");
         }
     }
 }

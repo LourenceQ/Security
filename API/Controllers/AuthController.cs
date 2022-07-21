@@ -15,14 +15,10 @@ namespace API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _config;
-        public AuthController(IConfiguration config)
+        private readonly ILogger<AuthController> _logger;
+        public AuthController(IConfiguration config, ILogger<AuthController> logger)
         {
             _config = config;
-        }
-        private readonly ILogger<AuthController> _logger;
-
-        public AuthController(ILogger<AuthController> logger)
-        {
             _logger = logger;
         }
 
@@ -43,7 +39,7 @@ namespace API.Controllers
                     new Claim("EmploymentDate", "2022-02-01")
                 };
 
-                var expiresAt = DateTime.UtcNow.AddMinutes(3);
+                var expiresAt = DateTime.UtcNow.AddMinutes(60);
                 return Ok(new
                 {
                     access_token = CreateToken(claims, expiresAt),

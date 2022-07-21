@@ -46,7 +46,7 @@ namespace API.Controllers
                 var expiresAt = DateTime.UtcNow.AddMinutes(3);
                 return Ok(new
                 {
-                    access_token = "",
+                    access_token = CreateToken(claims, expiresAt),
                     expires_at = expiresAt
                 });
             }
